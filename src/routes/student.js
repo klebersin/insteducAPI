@@ -13,10 +13,10 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  console.log("here");
   const { id } = req.params;
+  console.log(id);
   connection.query(
-    "SELECT * FROM estudiante WHERE idEstudiante = ?",
+    "SELECT * FROM estudiante WHERE NroDocIdent = ?",
     [id],
     (err, rows, fields) => {
       if (err) {
@@ -29,7 +29,6 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const {
-    idEstudiante,
     nombres,
     ApePaterno,
     ApeMaterno,
@@ -52,11 +51,10 @@ router.post("/", (req, res) => {
     CeluMadre,
   } = req.body;
   const insertQuery =
-    "INSERT INTO `estudiante` (`idEstudiante`, `nombres`, `ApePaterno`, `ApeMaterno`, `FechaNac`, `Celular`, `Correo`, `Direccion`, `Sexo`, `Departamento`, `Distrito`, `TipoDocumento`, `NroDocIdent`, `DniPadre`, `nombrePadre`, `apellidosPadre`, `CeluPadre`, `DniMadre`, `nombreMadre`, `apellidosMadre`, `CeluMadre`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO `estudiante` (`nombres`, `ApePaterno`, `ApeMaterno`, `FechaNac`, `Celular`, `Correo`, `Direccion`, `Sexo`, `Departamento`, `Distrito`, `TipoDocumento`, `NroDocIdent`, `DniPadre`, `nombrePadre`, `apellidosPadre`, `CeluPadre`, `DniMadre`, `nombreMadre`, `apellidosMadre`, `CeluMadre`) VALUES(?, ?, ?, STR_TO_DATE(?,'%d-%m-%Y' ), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   connection.query(
     insertQuery,
     [
-      idEstudiante,
       nombres,
       ApePaterno,
       ApeMaterno,
@@ -82,13 +80,13 @@ router.post("/", (req, res) => {
       if (err) {
         console.log(err);
       }
-      res.json(rows[0]);
+      res.json(rows);
     }
   );
 });
-router.put("/", (req, res) => {
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
   const {
-    idEstudiante,
     nombres,
     ApePaterno,
     ApeMaterno,
@@ -111,7 +109,7 @@ router.put("/", (req, res) => {
     CeluMadre,
   } = req.body;
   const insertQuery =
-    "UPDATE `estudiante` SET `nombres` = ?, `ApePaterno` = ?, `ApeMaterno` = ?, `FechaNac` = ?, `Celular` = ?, `Correo` = ?, `Direccion` = ?, `Sexo` = ?, `Departamento` = ?, `Distrito` = ?, `TipoDocumento` = ?, `NroDocIdent` = ?, `DniPadre` = ?, `nombrePadre` = ?, `apellidosPadre` = ?, `CeluPadre` = ?, `DniMadre` = ?, `nombreMadre` = ?, `apellidosMadre` = ?, `CeluMadre` = ? WHERE idEstudiante = ?";
+    "UPDATE `estudiante` SET `nombres` = ?, `ApePaterno` = ?, `ApeMaterno` = ?, `FechaNac` = STR_TO_DATE(?,'%d-%m-%Y'), `Celular` = ?, `Correo` = ?, `Direccion` = ?, `Sexo` = ?, `Departamento` = ?, `Distrito` = ?, `TipoDocumento` = ?, `NroDocIdent` = ?, `DniPadre` = ?, `nombrePadre` = ?, `apellidosPadre` = ?, `CeluPadre` = ?, `DniMadre` = ?, `nombreMadre` = ?, `apellidosMadre` = ?, `CeluMadre` = ? WHERE idEstudiante = ?";
   connection.query(
     insertQuery,
     [
@@ -135,7 +133,7 @@ router.put("/", (req, res) => {
       nombreMadre,
       apellidosMadre,
       CeluMadre,
-      idEstudiante,
+      id,
     ],
     (err, rows, fields) => {
       if (err) {
@@ -145,11 +143,11 @@ router.put("/", (req, res) => {
     }
   );
 });
-router.delete("/", (req, res) => {
-  const { idEstudiante } = req.body;
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
   connection.query(
     "DELETE FROM estudiante WHERE idEstudiante = ?",
-    [idEstudiante],
+    [id],
     (err, rows, fields) => {
       if (err) {
         console.log(err);
