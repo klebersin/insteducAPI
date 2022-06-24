@@ -84,8 +84,9 @@ router.post("/", (req, res) => {
     }
   );
 });
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
+router.put("/:idEstudiante", (req, res) => {
+  const { idEstudiante } = req.params;
+
   const {
     nombres,
     ApePaterno,
@@ -109,7 +110,8 @@ router.put("/:id", (req, res) => {
     CeluMadre,
   } = req.body;
   const insertQuery =
-    "UPDATE `estudiante` SET `nombres` = ?, `ApePaterno` = ?, `ApeMaterno` = ?, `FechaNac` = STR_TO_DATE(?,'%d-%m-%Y'), `Celular` = ?, `Correo` = ?, `Direccion` = ?, `Sexo` = ?, `Departamento` = ?, `Distrito` = ?, `TipoDocumento` = ?, `NroDocIdent` = ?, `DniPadre` = ?, `nombrePadre` = ?, `apellidosPadre` = ?, `CeluPadre` = ?, `DniMadre` = ?, `nombreMadre` = ?, `apellidosMadre` = ?, `CeluMadre` = ? WHERE idEstudiante = ?";
+    "UPDATE `estudiante` SET `nombres`= ?,  `ApePaterno`= ?,  `ApeMaterno`= ?,  `FechaNac`= STR_TO_DATE(?,'%d-%m-%Y'),  `Celular`= ?,  `Correo`= ?,  `Direccion`= ?,  `Sexo`= ?,  `Departamento`= ?,  `Distrito`= ?,  `TipoDocumento`= ?,  `NroDocIdent`= ?,  `DniPadre`= ?,  `nombrePadre`= ?,  `apellidosPadre`= ?,  `CeluPadre`= ?,  `DniMadre`= ?,  `nombreMadre`= ?,  `apellidosMadre`= ?,  `CeluMadre`= ? WHERE idEstudiante = ?";
+
   connection.query(
     insertQuery,
     [
@@ -133,7 +135,7 @@ router.put("/:id", (req, res) => {
       nombreMadre,
       apellidosMadre,
       CeluMadre,
-      id,
+      idEstudiante,
     ],
     (err, rows, fields) => {
       if (err) {
