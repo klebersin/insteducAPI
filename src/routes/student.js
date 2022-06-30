@@ -14,7 +14,6 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  console.log(id);
   connection.query(
     "SELECT * FROM estudiante WHERE NroDocIdent = ?",
     [id],
@@ -109,6 +108,7 @@ router.put("/:idEstudiante", (req, res) => {
     apellidosMadre,
     CeluMadre,
   } = req.body;
+
   const insertQuery =
     "UPDATE `estudiante` SET `nombres`= ?,  `ApePaterno`= ?,  `ApeMaterno`= ?,  `FechaNac`= STR_TO_DATE(?,'%d-%m-%Y'),  `Celular`= ?,  `Correo`= ?,  `Direccion`= ?,  `Sexo`= ?,  `Departamento`= ?,  `Distrito`= ?,  `TipoDocumento`= ?,  `NroDocIdent`= ?,  `DniPadre`= ?,  `nombrePadre`= ?,  `apellidosPadre`= ?,  `CeluPadre`= ?,  `DniMadre`= ?,  `nombreMadre`= ?,  `apellidosMadre`= ?,  `CeluMadre`= ? WHERE idEstudiante = ?";
 
