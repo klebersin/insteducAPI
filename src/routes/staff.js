@@ -3,12 +3,12 @@ const router = express.Router();
 const connection = require("../database");
 
 router.post("/", (req, res) => {
-  const { nombres, apePaterno, apeMaterno, celular, correo, sexo, direccion } =
+  const { nombres, apePaterno, apeMaterno, celular, correo, sexo, usuario, contraseña,direccion } =
     req.body;
   try {
     connection.query(
-      "INSERT INTO `docente` (`nombres`, `apePaterno`, `apeMaterno`, `celular`, `correo`, `sexo`, `direccion`) VALUES (?, ?, ?, ?, ?, ?, ?);",
-      [nombres, apePaterno, apeMaterno, celular, correo, sexo, direccion],
+      "INSERT INTO `docente` (`nombres`, `apePaterno`, `apeMaterno`, `celular`, `correo`, `sexo`, `usuario`, `contraseña`, `direccion`) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?);",
+      [nombres, apePaterno, apeMaterno, celular, correo, sexo, usuario, contraseña, direccion],
       (err, rows, fields) => {
         if (err) {
           console.log(err);
