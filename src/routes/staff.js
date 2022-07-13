@@ -47,10 +47,23 @@ router.put("/:id", (req, res) => {
       correo,
       sexo,
       direccion,
+      usuario,
+      contraseña,
     } = req.body;
     connection.query(
-      "UPDATE `docente` SET `nombres`= ?, `apePaterno`= ?, `apeMaterno`= ?, `celular`= ?, `correo`= ?, `sexo`= ?, `direccion`= ?  WHERE iddocente = ?",
-      [nombres, apePaterno, apeMaterno, celular, correo, sexo, direccion, id],
+      "UPDATE `docente` SET `nombres`= ?, `apePaterno`= ?, `apeMaterno`= ?, `celular`= ?, `correo`= ?, `sexo`= ?,`usuario`= ?, `contraseña`= ?, `direccion`= ?  WHERE iddocente = ?",
+      [
+        nombres,
+        apePaterno,
+        apeMaterno,
+        celular,
+        correo,
+        sexo,
+        usuario,
+        contraseña,
+        direccion,
+        id,
+      ],
       (err, rows, fields) => {
         if (err) {
           console.log(err);
