@@ -6,9 +6,9 @@ router.get("/", (req, res) => {
   try {
     connection.query("SELECT * FROM grado", (err, rows, fields) => {
       if (err) {
-        res.status(500).send("Algo salio mal");
+        return res.status(500).send("Algo salio mal");
       }
-      res.json(rows);
+      return res.json(rows);
     });
   } catch (err) {
     res.status(500).send("No se agrego el grado!");
@@ -16,17 +16,35 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { NombreGrado, Descripcion } = req.body;
+  const { nombreGrado, descripcionGrado } = req.body;
   try {
     connection.query(
       "INSERT INTO `grado` (`nombreGrado`, `descripcionGrado`) VALUES (?, ?);",
-      [NombreGrado, Descripcion],
+      [nombreGrado, descripcionGrado],
       (err, rows, fields) => {
         if (err) {
-          res.status(500).send("No se agrego el grado!");
+          return res.status(500).send("No se agrego el grado!");
         }
-        res.status(200).send("Grado agregado!");
+        return res.status(200).send("Grado agregado!");
       }
+    );
+  } catch (err) {
+    res.status(500).send("No se agrego el grado!");
+  }
+});
+router.put("/:idgrado", (req, res) => {
+  const { idgrado } = req.params;
+  const { nombreGrado, descripcionGrado } = req.body;
+  try {
+    connection.query(
+        "UPDATE `grado` SET `nombreGrado`=?, `descripcionGrado`=? WHERE idgrado =?",
+        [nombreGrado, descripcionGrado, idgrado],
+        (err, rows, fields) => {
+          if (err) {
+            return res.status(500).send("No se agrego el grado!");
+          }
+          return res.status(200).send("Grado agregado!");
+        }
     );
   } catch (err) {
     res.status(500).send("No se agrego el grado!");

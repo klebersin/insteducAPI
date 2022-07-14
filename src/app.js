@@ -26,6 +26,7 @@ app.use("/staff", require("./routes/staff"));
 app.use("/courses", require("./routes/courses"));
 app.use("/assigns", require("./routes/assigns"));
 app.use("/period", require("./routes/period"));
+app.use("/competency", require("./routes/competency"));
 
 app.listen(4000, () => {
   console.log("Servidor en puerto 4000");

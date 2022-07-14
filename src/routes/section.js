@@ -21,6 +21,25 @@ router.post("/", (req, res) => {
   }
 });
 
+router.put("/:idseccion", (req, res) => {
+    const { idseccion } = req.params;
+    const { nombreSeccion } = req.body;
+    try {
+        connection.query(
+            "UPDATE `seccion` SET `nombreSeccion`=? WHERE idseccion =?",
+            [nombreSeccion, idseccion],
+            (err, rows, fields) => {
+                if (err) {
+                    return res.status(500).send("No se modifico la seccion!");
+                }
+                return res.status(200).send("Seccion modificada!");
+            }
+        );
+    } catch (err) {
+        res.status(500).send("No se modifico la seccion!");
+    }
+});
+
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   try {
@@ -29,10 +48,10 @@ router.get("/:id", (req, res) => {
       [id],
       (err, rows, fields) => {
         if (err) {
-          res.status(500).send("No se agrego la seccion!");
-          console.log(err);
+            console.log(err);
+            return res.status(500).send("No se agrego la seccion!");
         }
-        res.json(rows);
+        return res.json(rows);
       }
     );
   } catch (err) {
