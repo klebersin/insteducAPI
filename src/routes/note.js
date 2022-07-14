@@ -2,22 +2,27 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../database");
 
-router.post("/", (req, res) => {
-  const { nombreCurso, descripcionCurso } = req.body;
+router.post("/", async (req, res) => {
+  const { idregistronota, notas } = req.body;
   try {
-    connection.query(
-      "INSERT INTO `curso` (`nombreCurso`, `descripcionCurso`) VALUES (?, ?);",
-      [nombreCurso, descripcionCurso],
-      (err, rows, fields) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).send("No se agrego el curso!");
-        }
-        return res.status(200).send("Curso agregado!");
-      }
+    await Promise.all(
+      notas.map((nota) => {
+        connection.query(
+          "INSERT INTO `nota` (`idregistronota`, `idcompetencia`, `nota`) VALUES (?, ?, ?);",
+          [idregistronota, nota.idcompetencia, nota.nota],
+          (err, rows, fields) => {
+            if (err) {
+              return res.status(500).send("No se agrego la nota!");
+            }
+          }
+        );
+      })
     );
+
+    return res.status(200).send("Notas agregadas!");
   } catch (err) {
-    return res.status(500).send("No se agrego el curso!");
+    console.log(err);
+    return res.status(500).send("No se agrego la nota!");
   }
 });
 

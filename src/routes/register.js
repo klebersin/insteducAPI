@@ -4,9 +4,10 @@ const connection = require("../database");
 
 router.get("/", (req, res) => {
   connection.query(
-    "SELECT nombreGrado, fechaMatricula, nombreSeccion, nombres, ApePaterno, NroDocIdent  FROM matricula INNER JOIN grado ON matricula.idgrado = grado.idgrado INNER JOIN seccion ON matricula.idseccion = seccion.idseccion INNER JOIN estudiante ON matricula.idEstudiante = estudiante.idEstudiante;",
+    "SELECT estudiante.idEstudiante, nombreGrado, fechaMatricula, nombreSeccion, nombres, ApePaterno, NroDocIdent  FROM matricula INNER JOIN grado ON matricula.idgrado = grado.idgrado INNER JOIN seccion ON matricula.idseccion = seccion.idseccion INNER JOIN estudiante ON matricula.idEstudiante = estudiante.idEstudiante;",
     (err, rows, fields) => {
       if (err) {
+        console.log(err);
         res.status(500).send("Algo salio mal");
       }
       res.json(rows);
