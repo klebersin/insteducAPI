@@ -3,12 +3,33 @@ const router = express.Router();
 const connection = require("../database");
 
 router.post("/", (req, res) => {
-  const { nombres, apePaterno, apeMaterno, celular, correo, sexo, usuario, contraseña,direccion } =
-    req.body;
+  const {
+    nombres,
+    apePaterno,
+    apeMaterno,
+    celular,
+    correo,
+    sexo,
+    usuario,
+    contraseña,
+    direccion,
+    rol,
+  } = req.body;
   try {
     connection.query(
-      "INSERT INTO `docente` (`nombres`, `apePaterno`, `apeMaterno`, `celular`, `correo`, `sexo`, `usuario`, `contraseña`, `direccion`) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?);",
-      [nombres, apePaterno, apeMaterno, celular, correo, sexo, usuario, contraseña, direccion],
+      "INSERT INTO `docente` (`nombres`, `apePaterno`, `apeMaterno`, `celular`, `correo`, `sexo`, `usuario`, `contraseña`, `direccion`, `rol`) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?);",
+      [
+        nombres,
+        apePaterno,
+        apeMaterno,
+        celular,
+        correo,
+        sexo,
+        usuario,
+        contraseña,
+        direccion,
+        rol,
+      ],
       (err, rows, fields) => {
         if (err) {
           console.log(err);
@@ -49,9 +70,10 @@ router.put("/:id", (req, res) => {
       direccion,
       usuario,
       contraseña,
+      rol,
     } = req.body;
     connection.query(
-      "UPDATE `docente` SET `nombres`= ?, `apePaterno`= ?, `apeMaterno`= ?, `celular`= ?, `correo`= ?, `sexo`= ?,`usuario`= ?, `contraseña`= ?, `direccion`= ?  WHERE iddocente = ?",
+      "UPDATE `docente` SET `nombres`= ?, `apePaterno`= ?, `apeMaterno`= ?, `celular`= ?, `correo`= ?, `sexo`= ?,`usuario`= ?, `contraseña`= ?, `direccion`= ?, `rol`= ? WHERE iddocente = ?",
       [
         nombres,
         apePaterno,
@@ -62,6 +84,7 @@ router.put("/:id", (req, res) => {
         usuario,
         contraseña,
         direccion,
+        rol,
         id,
       ],
       (err, rows, fields) => {

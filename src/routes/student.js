@@ -12,6 +12,22 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/section/:id", (req, res) => {
+  const { id } = req.params;
+
+  connection.query(
+    "SELECT * FROM matricula INNER JOIN estudiante ON matricula.idEstudiante = estudiante.idEstudiante  WHERE matricula.idseccion = ? ",
+    [id],
+    (err, rows, fields) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Something went wrong" });
+      }
+      res.json(rows);
+    }
+  );
+});
+
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   connection.query(
@@ -31,7 +47,6 @@ router.post("/", (req, res) => {
     nombres,
     ApePaterno,
     ApeMaterno,
-    FechaNac,
     Celular,
     Correo,
     Direccion,
@@ -50,14 +65,13 @@ router.post("/", (req, res) => {
     CeluMadre,
   } = req.body;
   const insertQuery =
-    "INSERT INTO `estudiante` (`nombres`, `ApePaterno`, `ApeMaterno`, `FechaNac`, `Celular`, `Correo`, `Direccion`, `Sexo`, `Departamento`, `Distrito`, `TipoDocumento`, `NroDocIdent`, `DniPadre`, `nombrePadre`, `apellidosPadre`, `CeluPadre`, `DniMadre`, `nombreMadre`, `apellidosMadre`, `CeluMadre`) VALUES(?, ?, ?, STR_TO_DATE(?,'%d-%m-%Y' ), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO `estudiante` (`nombres`, `ApePaterno`, `ApeMaterno`, `Celular`, `Correo`, `Direccion`, `Sexo`, `Departamento`, `Distrito`, `TipoDocumento`, `NroDocIdent`, `DniPadre`, `nombrePadre`, `apellidosPadre`, `CeluPadre`, `DniMadre`, `nombreMadre`, `apellidosMadre`, `CeluMadre`) VALUES(?, ?, ?, STR_TO_DATE(?,'%d-%m-%Y' ), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   connection.query(
     insertQuery,
     [
       nombres,
       ApePaterno,
       ApeMaterno,
-      FechaNac,
       Celular,
       Correo,
       Direccion,
@@ -90,7 +104,6 @@ router.put("/:idEstudiante", (req, res) => {
     nombres,
     ApePaterno,
     ApeMaterno,
-    FechaNac,
     Celular,
     Correo,
     Direccion,
@@ -110,7 +123,7 @@ router.put("/:idEstudiante", (req, res) => {
   } = req.body;
 
   const insertQuery =
-    "UPDATE `estudiante` SET `nombres`= ?,  `ApePaterno`= ?,  `ApeMaterno`= ?,  `FechaNac`= STR_TO_DATE(?,'%d-%m-%Y'),  `Celular`= ?,  `Correo`= ?,  `Direccion`= ?,  `Sexo`= ?,  `Departamento`= ?,  `Distrito`= ?,  `TipoDocumento`= ?,  `NroDocIdent`= ?,  `DniPadre`= ?,  `nombrePadre`= ?,  `apellidosPadre`= ?,  `CeluPadre`= ?,  `DniMadre`= ?,  `nombreMadre`= ?,  `apellidosMadre`= ?,  `CeluMadre`= ? WHERE idEstudiante = ?";
+    "UPDATE `estudiante` SET `nombres`= ?,  `ApePaterno`= ?,  `ApeMaterno`= ?,  `Celular`= ?,  `Correo`= ?,  `Direccion`= ?,  `Sexo`= ?,  `Departamento`= ?,  `Distrito`= ?,  `TipoDocumento`= ?,  `NroDocIdent`= ?,  `DniPadre`= ?,  `nombrePadre`= ?,  `apellidosPadre`= ?,  `CeluPadre`= ?,  `DniMadre`= ?,  `nombreMadre`= ?,  `apellidosMadre`= ?,  `CeluMadre`= ? WHERE idEstudiante = ?";
 
   connection.query(
     insertQuery,
@@ -118,7 +131,6 @@ router.put("/:idEstudiante", (req, res) => {
       nombres,
       ApePaterno,
       ApeMaterno,
-      FechaNac,
       Celular,
       Correo,
       Direccion,
