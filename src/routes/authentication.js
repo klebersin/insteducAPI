@@ -19,6 +19,10 @@ router.post("/", (req, res) => {
           return res.status(500).json({ message: "Something went wrong" });
         }
         if (rows.length > 0) {
+          if (rows[0].contraseña !== password) {
+            return res.status(401).json({ message: "Password incorrect" });
+          }
+
           const staffUser = {
             ...rows[0],
           };
@@ -29,6 +33,8 @@ router.post("/", (req, res) => {
             "secret"
           );
           return res.status(200).json({ token, usuario: staffUser });
+        } else {
+          return res.status(401).json({ message: "Usuario no encontrado" });
         }
       }
     );
