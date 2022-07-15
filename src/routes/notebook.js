@@ -49,7 +49,7 @@ router.get("/student/:id", (req, res) => {
   const { id } = req.params;
   try {
     connection.query(
-      "SELECT * FROM registronota WHERE idEstudiante = ?",
+      "SELECT * FROM registronota INNER JOIN nota ON registronota.idregistronota = nota.idregistronota INNER JOIN curso ON registronota.idcurso = curso.idcurso INNER JOIN competencia ON nota.idcompetencia = competencia.idcompetencia WHERE idEstudiante = ?",
       [id],
       (err, rows, fields) => {
         if (err) {
